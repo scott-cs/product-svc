@@ -6,5 +6,5 @@ COPY target/product-svc-1.0.war /usr/local/tomcat/webapps/product-svc.war
 
 EXPOSE 8080
 
-ENV CATALINA_OPTS="-javaagent=/usr/local/tomcat/lib/contrast.jar"
+ENV CATALINA_OPTS="-javaagent:/usr/local/tomcat/lib/contrast.jar"
 CMD ["catalina.sh", "run"]
