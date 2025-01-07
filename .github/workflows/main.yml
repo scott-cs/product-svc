@@ -38,7 +38,7 @@ jobs:
       uses: anchore/scan-action@v3
       id: imagescan
       with:
-        image: ${{ github.project_owner }}/${{ vars.IMAGE_NAME}}: ${{ vars.IMAGE_VERSION }}
+        image: "${{ github.project_owner }}/${{ vars.IMAGE_NAME}}:${{ vars.IMAGE_VERSION }}"
         acs-report-enable: "true"
         fail-build: false
 
