@@ -8,6 +8,10 @@
     <artifactId>product-svc</artifactId>
     <packaging>war</packaging>
     <version>1.0</version>
+    <build>
+        <finalName>product-svc</finalName>
+    </build>
+
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
