@@ -29,16 +29,16 @@ jobs:
         password: ${{ secrets.GCR_TOKEN }}
 
     - name: build container
-      uses: docker/build-push-action@v2
+      uses: docker/build-push-action@v4
       with:
-        tags: ${{ github.project_owner }}/${{ vars.IMAGE_NAME}}
+        tags: ${{ vars.OWNER }}/${{ vars.IMAGE_NAME}}:${{ vars.IMAGE_VERSION }}
         push: false
         load: true
     - name: Scan Image
-      uses: anchore/scan-action@v3
+      uses: anchore/scan-action@v6
       id: imagescan
       with:
-        image: "${{ github.project_owner }}/${{ vars.IMAGE_NAME}}:${{ vars.IMAGE_VERSION }}"
+        image: "${{ vars.OWNER }}/${{ vars.IMAGE_NAME}}:${{ vars.IMAGE_VERSION }}"
         acs-report-enable: "true"
         fail-build: false
 
@@ -50,7 +50,7 @@ jobs:
     - name: Publish image
       uses: docker/build-push-action@v2
       with:
-        tags: "${{ github.project_owner }}/${{ vars.IMAGE_NAME}}:${{ vars.IMAGE_VERSION }}"
+        tags: "${{ vars.OWNER }}/${{ vars.IMAGE_NAME}}:${{ vars.IMAGE_VERSION }}"
         push: true
         load: true
       
