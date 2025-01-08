@@ -45,7 +45,7 @@ jobs:
         sarif_file: ${{ steps.imagescan.outputs.sarif }}
 
     - name: Publish image
-      run: docker push "${{vars.REGISTRY}/${{ vars.OWNER }}/${{ vars.IMAGE_NAME}}:${{ vars.IMAGE_VERSION }}"
+      run: docker push "${{ vars.REGISTRY }}/${{ vars.OWNER }}/${{ vars.IMAGE_NAME}}:${{ vars.IMAGE_VERSION }}"
 
 
       
