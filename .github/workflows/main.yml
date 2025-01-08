@@ -32,13 +32,13 @@ jobs:
         password: ${{ secrets.GCR_TOKEN }}
 
     - name: build container
-      run: docker build . --tag "${{ vars.OWNER }}/${{ vars.IMAGE_NAME}}:${{ vars.IMAGE_VERSION }}"
+      run: docker build . --tag "${{ vars.REGISTRY }}/${{ vars.OWNER }}/${{ vars.IMAGE_NAME}}:${{ vars.IMAGE_VERSION }}"
       
     - name: Scan Image
       uses: anchore/scan-action@v6
       id: imagescan
       with:
-        image: "${{ vars.OWNER }}/${{ vars.IMAGE_NAME}}:${{ vars.IMAGE_VERSION }}"
+        image: "${{ vars.REGISTRY }}/${{ vars.OWNER }}/${{ vars.IMAGE_NAME}}:${{ vars.IMAGE_VERSION }}"
         fail-build: false
 
     - name: Upload Image Scan SARIF report
