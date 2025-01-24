@@ -25,8 +25,14 @@ jobs:
     - name: Build project with Maven
       run: mvn -B package --file pom.xml
 
-    - name: SCA, SAST with Snyk
+    - name: SAST with Snyk
       run: snyk code test --sarif --sarif-file-output=snyk.sarif
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      continue-on-error: true
+      
+    - name: SCA, SAST with Snyk
+      run: snyk test --sarif --sarif-file-output=snyk-sca.sarif
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       continue-on-error: true
@@ -53,11 +59,16 @@ jobs:
       with:
         sarif_file: ${{ steps.imagescan.outputs.sarif }}
 
-    - name: Upload Image Scan SARIF report
+    - name: Upload SAST Scan SARIF report
       uses: github/codeql-action/upload-sarif@v3
       with:
         sarif_file: snyk.sarif
-
+        
+    - name: Upload SCA Scan SARIF report
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: snyk-sca.sarif
+        
     - name: Publish image
       run: docker push "${{ vars.REGISTRY }}/${{ vars.OWNER }}/${{ vars.IMAGE_NAME}}:${{ vars.IMAGE_VERSION }}"
 
