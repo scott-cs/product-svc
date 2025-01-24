@@ -26,7 +26,7 @@ jobs:
       run: mvn -B package --file pom.xml
 
     - name: SCA, SAST with Snyk
-      run: snyk code test --sarif --sarif-file-output=snyk.sarif --severity-threshold=critical
+      run: snyk code test --sarif --sarif-file-output=snyk.sarif
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       continue-on-error: true
