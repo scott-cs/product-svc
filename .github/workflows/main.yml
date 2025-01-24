@@ -53,6 +53,7 @@ jobs:
       with:
         image: "${{ vars.REGISTRY }}/${{ vars.OWNER }}/${{ vars.IMAGE_NAME}}:${{ vars.IMAGE_VERSION }}"
         fail-build: false
+        by-cve: true
 
     - name: Upload Image Scan SARIF report
       uses: github/codeql-action/upload-sarif@v3
@@ -69,11 +70,17 @@ jobs:
       with:
         sarif_file: snyk-sca.sarif
 
-    - name: Archive code coverage results
+    - name: Archive snyk scan results
       uses: actions/upload-artifact@v4
       with:
-        name: sarif files
+        name: snyk-sarif
         path: snyk*.sarif
+
+    - name: Archive container scan results
+      uses: actions/upload-artifact@v4
+      with:
+        name: grype-scan
+        path: ${{ steps.imagescan.outputs.sarif }}
 
     - name: Publish image
       run: docker push "${{ vars.REGISTRY }}/${{ vars.OWNER }}/${{ vars.IMAGE_NAME}}:${{ vars.IMAGE_VERSION }}"
