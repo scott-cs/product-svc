@@ -68,7 +68,13 @@ jobs:
       uses: github/codeql-action/upload-sarif@v3
       with:
         sarif_file: snyk-sca.sarif
-        
+
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v4
+      with:
+        name: sarif files
+        path: ~/*.sarif
+
     - name: Publish image
       run: docker push "${{ vars.REGISTRY }}/${{ vars.OWNER }}/${{ vars.IMAGE_NAME}}:${{ vars.IMAGE_VERSION }}"
 
